@@ -1,0 +1,77 @@
+﻿@using Mvc22._11.Models.Entity
+@model List<TBLURUNLER>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<table id="tbl1" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ÜRÜN ID</th>
+            <th>ÜRÜN ADI</th>
+            <th>MARKA</th>
+            <th>ÜRÜN KATEGORİ</th>
+            <th>FİYAT</th>
+            <th>STOK</th>
+            <th>SİL</th>
+            <th>GÜNCELLE</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var urn in Model)
+        {
+            //bu kodları kategorıcontroler ındexıne gore kopyalayıp yapmaya calıstım ama hata verdı.hata nerede?
+            <tr>
+                <th>@urn.URUNID</th>
+                <td>@urn.URUNAD</td>
+                <td>@urn.MARKA</td>
+                <td>@urn.TBLKATEGORILER.KATEGORIAD</td>
+                <td>@urn.FIYAT</td>
+                <td>@urn.STOK</td>
+                @*bu yoruma aldığım satır normalde çalısıyor*@
+
+                @*<td><a href="/URUN/SIL/@urn.URUNID" class="btn btn-danger">SİL</a></td>
+                    <td><a href="/URUN/GUNCELLE/@urn.URUNID" class="btn btn-success">GÜNCELLE</a></td>*@
+                @*aşağıdakı kodlar hatalı*@
+
+                <!-- Button trigger modal -->
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal-@urn.URUNID">
+                        SİL
+                    </button>
+                </td>
+                <td><a href="/URUN/UrunGetir/@urn.URUNID" class="btn btn-success">GÜNCELLE</a></td>
+            </tr>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal-@urn.URUNID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">@urn.URUNAD</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Silmek istediğinize emin misiniz ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("SIL","Urun",new {id=urn.URUNID})'">SİL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
+<a href="/URUN/YeniUrun/" class="btn btn-primary">YENİ ÜRÜN EKLE</a>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+<link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+<script>
+    $('#tbl1').dataTable();
+</script>

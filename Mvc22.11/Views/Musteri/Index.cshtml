@@ -1,0 +1,99 @@
+﻿@using Mvc22._11.Models.Entity
+@model List<TBLMUSTERI>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+@using (Html.BeginForm("Index", "Musteri", FormMethod.Get))
+{
+    <p>
+        <b>Aranacak müşteri adı:</b> @Html.TextBox("p")
+        <input type="submit" value="Ara" />
+    </p>
+}
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>MÜŞTERİ ID</th>
+        <th>MÜŞTERİ ADI</th>
+        <th>MÜŞTERİ SOYAD</th>
+    </tr>
+
+    <tbody>
+        @foreach (var mstr in Model)
+        {
+            <tr>
+                <th>@mstr.MUSTERIID</th>
+                <td>@mstr.MUSTERIAD</td>
+                <td>@mstr.MUSTERISOYAD</td>
+                <td>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal-@mstr.MUSTERIID">
+                        SİL
+                    </button>
+                </td>
+                <td><a href="/MUSTERI/MusteriGetir/@mstr.MUSTERIID" class="btn btn-success">GÜNCELLE</a></td>
+            </tr>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal-@mstr.MUSTERIID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">@mstr.MUSTERIAD</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">@mstr.MUSTERISOYAD</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Silmek istediğinize emin misiniz ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("SIL","Musteri",new {id=mstr.MUSTERIID})'">SİL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        }
+    </tbody>
+</table>
+@*<a href="/MUSTERI/YeniMusteri/" class="btn btn-primary">YENİ MÜŞTERİ EKLE</a>*@
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal1">
+    YENİ Müşteri EKLE
+</button>
+<div class="modal" id="modal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Müşteri Ekleme aLanı</h2>
+            </div>
+            <form method="get" action="/Musteri/YeniMusteri">
+                <div class="modal-body">
+                    <label>
+                        Müşteri Adı
+                    </label>
+                    <br />
+                    <input type="text" class="form-control" name="MusteriAd" />
+                    <br />
+                    <label>
+                        Müşteri Soyadı
+                    </label>
+                    <br />
+                    <input type="text" class="form-control" name="MusteriSoyad" />
+                    <br />
+                    <button type="submit" class="btn btn-info">Müşteri Ekle</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Vazgeç</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
