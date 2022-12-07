@@ -13,6 +13,7 @@ namespace Mvc22._11.Controllers
         // GET: Giris
         public ActionResult Index()
         {
+            var x = 5;
             return View();
         }
         public ActionResult Giris()
